@@ -12,12 +12,28 @@
 {% endblock %}
 
 {% block body %}
-    {% block navbar %}
-        {% include 'navbar.html' %}
-    {% endblock %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% for element in get_flashed_messages() %}
+
+<div class="container">
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            &times;
+        </button>
+        <h4>{{ element|e }}</h4>
+    </div>
+</div>
+{% endfor %}
 
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 
+{% block scripts %}
+{{super() }}
+{% endblock%}
 {% endblock %}

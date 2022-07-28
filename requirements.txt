@@ -2,3 +2,5 @@ flask
 flask-bootstrap
 pre-commit
 flask-wtf
+autopep8
+flask-testing

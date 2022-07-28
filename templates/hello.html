@@ -8,6 +8,13 @@ Bienvenido Nene
 {% endblock %}
 
 {% block content%}
+{% if username %}
+<div class="container">
+    <h3>Bienvenido {{ username | capitalize}}</h3>
+</div>
+{% endif %}
+
+
 {% if user_ip%}
 <h1>Hello word,lk your IP es {{user_ip}}</h1>
 {% else %}
@@ -18,7 +25,6 @@ Bienvenido Nene
     <form action="{{ url_for('hello') }}" method="post">
         <!-- {{ login_form.username }}
         {{ login_form.username.label }} -->
-
         {{
         wtf.quick_form(login_form)
         }}
