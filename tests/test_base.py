@@ -28,14 +28,29 @@ class MainTest(TestCase):
         response = self.client.get(url_for('hello'))
         self.assertEqual(response.status_code, 200)
 
-    # def test_hello_post(self):
-    #     fake_form = {
-    #         'username': 'fake_name',
-    #         'surnames': 'fake_last_name',
-    #         'email': 'email@example.com',
-    #         'password': 'fake_password'
-    #     }
-    
-    #     response = self.client.post(url_for('hello'), data=fake_form)
-        
-    #     self.assertRedirects(response, url_for('index'))    
+    def test_hello_post(self):
+
+        response = self.client.post(url_for('hello'))
+
+        self.assertTrue(response.status_code, 405)
+
+    #     self.assertRedirects(response, url_for('index'))
+
+    def test_auth_blueprint_exists(self):
+        self.assertIn('auth', self.app.blueprints)
+
+    def test_auth_login_template(self):
+        self.client.get(url_for('auth.login'))
+
+        self.assertTemplateUsed('login.html')
+
+    def test_auth_login_post(self):
+        fake_form = {
+            'username': 'fake_name',
+            'surnames': 'fake_last_name',
+            'email': 'email@example.com',
+            'password': 'fake_password'
+        }
+
+        response = self.client.post(url_for('auth.login'), data=fake_form)
+        self.assertRedirects(response, url_for('index'))

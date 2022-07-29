@@ -1,22 +1,11 @@
-from flask import Flask, request, make_response, redirect, render_template, session, flash
-from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, EmailField, SubmitField
-from wtforms.validators import DataRequired
+from flask import request, make_response, redirect, render_template, session, url_for, flash
 import unittest
 
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'SUPER SECRET'
-bootstrap = Bootstrap(app)
+from app import create_app
+from app.forms import LoginForm
 
 
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    surnames = StringField('Surnames', validators=[DataRequired()])
-    email = EmailField('Email', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Enviar')
+app = create_app()
 
 
 @app.cli.command()
@@ -57,22 +46,16 @@ def index():
 all = ['Todo 1', 'Todo 2', 'Todo 3', 'Todo 4']
 
 
-@app.route('/hello', methods=['GET', 'POST'])
+@app.route('/hello', methods=['GET'])
 def hello():
     # user_ip = request.cookies.get("user_ip")
     user_ip = session.get('user_ip')
     username = session.get('username')
 
-    login_form = LoginForm()
     context = {
         'user_ip': user_ip,
         'all': all,
-        'login_form': login_form,
         'username': username
     }
-
-    if login_form.validate_on_submit():
-        session['username'] = login_form.username.data
-
-        flash('User created successfully')
-    return render_template('/hello.html', **context)
+    
+    return render_template('hello.html', **context)

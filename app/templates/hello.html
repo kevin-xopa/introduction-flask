@@ -21,17 +21,6 @@ Bienvenido Nene
 <a href="{{ url_for('index') }}">Ir a inicio</a>
 {% endif%}
 
-<div class="container">
-    <form action="{{ url_for('hello') }}" method="post">
-        <!-- {{ login_form.username }}
-        {{ login_form.username.label }} -->
-        {{
-        wtf.quick_form(login_form)
-        }}
-    </form>
-</div>
-
-
 <ul>
     {% for item in all %}
     {{ macros.render_item(item) }}
