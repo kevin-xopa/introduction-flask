@@ -5,3 +5,5 @@ flask-wtf
 autopep8
 flask-testing
 blinker
+firebase-admin
+flask-login

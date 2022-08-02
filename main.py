@@ -3,7 +3,8 @@ import unittest
 
 from app import create_app
 from app.forms import LoginForm
-
+from app.firestore_service import get_users, get_all
+from flask_login import login_required, current_user
 
 app = create_app()
 
@@ -47,15 +48,18 @@ all = ['Todo 1', 'Todo 2', 'Todo 3', 'Todo 4']
 
 
 @app.route('/hello', methods=['GET'])
+@login_required
 def hello():
     # user_ip = request.cookies.get("user_ip")
     user_ip = session.get('user_ip')
-    username = session.get('username')
+    # username = session.get('username')
+    username = current_user.id
+    alls = get_all(username)
 
     context = {
         'user_ip': user_ip,
-        'all': all,
+        'all': alls,
         'username': username
     }
-    
+
     return render_template('hello.html', **context)
